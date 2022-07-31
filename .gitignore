@@ -24,3 +24,10 @@ hs_err_pid*
 
 #Resource 파일
 src/main/resources
+build/resources/main/application.yml
+build/resources/main/logback-spring.xml
+src/main/resources/application.yml
+out/production/resources/application.yml
+src/main/resources/application.yml
+src/main/resources/application.yml
+src/main/resources/application.yml
