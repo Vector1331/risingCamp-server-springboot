@@ -15,14 +15,11 @@ import java.util.List;
 @AllArgsConstructor
 public class GetNewRes {
     private int newsIdx;
-    private String previewUrl;
+    private String openDate;
     private String title;
     private String info;
-    private String openDate;
-//    @Nullable
-//    private List<Category> category;
-//    @Nullable
-//    private List<MovieCategory> movieCategories;
-//    @Nullable
-//    private List<SeriesCategory> seriesCategories;
+    private String previewUrl;
+    //카테고리 필요
+    //알림 받기 필요
+
 }

@@ -7,5 +7,9 @@ import lombok.Data;
 @AllArgsConstructor
 public class GetHotRes {
     private int hotIdx;
+    private String title;
+    private String info;
+    private String previewUrl;
+    //찜여부
 
 }
