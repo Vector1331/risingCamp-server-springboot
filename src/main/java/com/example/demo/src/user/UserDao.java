@@ -83,7 +83,7 @@ public class UserDao {
         return this.jdbcTemplate.update(modifyUserNameQuery,modifyUserNameParams);
     }
 
-    public User getPwd(PostLoginReq postLoginReq){
+    /*public User getPwd(PostLoginReq postLoginReq){
         String getPwdQuery = "select userIdx, password,email,userName,ID from UserInfo where ID = ?";
         String getPwdParams = postLoginReq.getId();
 
@@ -98,7 +98,7 @@ public class UserDao {
                 getPwdParams
                 );
 
-    }
+    }*/
 
 
 }

@@ -69,7 +69,7 @@ public class UserProvider {
         }
     }
 
-    public PostLoginRes logIn(PostLoginReq postLoginReq) throws BaseException{
+    /*public PostLoginRes logIn(PostLoginReq postLoginReq) throws BaseException{
         User user = userDao.getPwd(postLoginReq);
         String encryptPwd;
         try {
@@ -87,6 +87,6 @@ public class UserProvider {
             throw new BaseException(FAILED_TO_LOGIN);
         }
 
-    }
+    }*/
 
 }
