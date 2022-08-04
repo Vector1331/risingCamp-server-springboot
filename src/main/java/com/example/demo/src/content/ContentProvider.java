@@ -13,4 +13,10 @@ public class ContentProvider {
         List<GetContentRes> getContentRes = contentDao.getContents(label);
         return getContentRes;
     }
+
+    public List<GetContentRes> getCategoryContent(int categoryIdx, String label) {
+        List<GetContentRes> getContentRes = contentDao.getCategoryContent(categoryIdx, label);
+        return getContentRes;
+
+    }
 }

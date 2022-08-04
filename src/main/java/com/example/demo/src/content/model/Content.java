@@ -1,10 +1,14 @@
 package com.example.demo.src.content.model;
 
+import com.example.demo.src.category.model.ContentCategory;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "content")
@@ -34,6 +38,9 @@ public class Content {
     private String quality;
     private String status;
 
+    @JsonIgnore
+    @OneToMany(mappedBy = "content")
+    private List<ContentCategory> contentCategories = new ArrayList<>();
 
 
 }

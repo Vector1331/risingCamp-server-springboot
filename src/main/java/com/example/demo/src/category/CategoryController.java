@@ -29,4 +29,6 @@ public class CategoryController {
         List<GetCategoryRes> getCategoryRes = categoryProvider.getCategories("series");
         return new BaseResponse<>(getCategoryRes);
     }
+
+
 }
