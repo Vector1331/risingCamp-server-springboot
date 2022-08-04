@@ -41,8 +41,11 @@ public class ContentController {
     }
 
     //6-4
-//    @GetMapping("/movie/{categoryIdx}")
-//    public BaseResponse<List<GetContentRes>> getCategorySeries(@PathVariable)
+    @GetMapping("/series/{categoryIdx}")
+    public BaseResponse<List<GetContentRes>> getCategorySeries(@PathVariable("categoryIdx") int categoryIdx) {
+        List<GetContentRes> getContentRes = contentProvider.getCategoryContent(categoryIdx, "series");
+        return new BaseResponse<>(getContentRes);
+    }
 
 
 }
