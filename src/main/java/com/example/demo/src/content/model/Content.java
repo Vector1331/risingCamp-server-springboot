@@ -1,6 +1,7 @@
 package com.example.demo.src.content.model;
 
 import com.example.demo.src.category.model.ContentCategory;
+import com.example.demo.src.save.model.SaveContent;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -42,5 +43,7 @@ public class Content {
     @OneToMany(mappedBy = "content")
     private List<ContentCategory> contentCategories = new ArrayList<>();
 
-
+    @JsonIgnore
+    @OneToMany(mappedBy = "content")
+    private List<SaveContent> saveContents = new ArrayList<>();
 }
