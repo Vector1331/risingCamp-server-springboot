@@ -17,7 +17,7 @@ public class SaveContent {
     @Id
     @GeneratedValue
     @Column(name = "saveContentIdx")
-    private int saveIdx;
+    private int saveContentIdx;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="contentIdx")
@@ -28,5 +28,5 @@ public class SaveContent {
     private Profile profile;
 
     private String status;
-    private int detailContentIdx;
+    private Integer detailContentIdx;
 }
