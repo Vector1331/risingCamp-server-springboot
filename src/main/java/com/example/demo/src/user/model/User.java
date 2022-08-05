@@ -22,8 +22,7 @@ public class User {
     private int userIdx;
 
     private String email;
-    @Column(name = "pawsswd")
-    private String password;
+    private String passwd;
     private String phone;
     private String status;
 

@@ -6,6 +6,7 @@ import com.example.demo.config.BaseResponseStatus;
 import com.example.demo.src.user.model.*;
 import com.example.demo.utils.JwtService;
 import com.example.demo.utils.SHA256;
+import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,7 @@ import static com.example.demo.config.BaseResponseStatus.*;
 
 //Provider : Read의 비즈니스 로직 처리
 @Service
+@RequiredArgsConstructor
 public class UserProvider {
 
     private final UserDao userDao;
@@ -25,32 +27,17 @@ public class UserProvider {
 
     final Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    @Autowired
-    public UserProvider(UserDao userDao, JwtService jwtService) {
-        this.userDao = userDao;
-        this.jwtService = jwtService;
+
+    public List<GetUserRes> getUsers(){
+        List<GetUserRes> getUserRes = userDao.getUsers();
+        return getUserRes;
     }
 
-    public List<GetUserRes> getUsers() throws BaseException{
-        try{
-            List<GetUserRes> getUserRes = userDao.getUsers();
-            return getUserRes;
-        }
-        catch (Exception exception) {
-            throw new BaseException(DATABASE_ERROR);
-        }
+    public List<GetUserRes> getUsersByEmail(String email){
+        List<GetUserRes> getUsersRes = userDao.getUsersByEmail(email);
+        return getUsersRes;
     }
-
-    public List<GetUserRes> getUsersByEmail(String email) throws BaseException{
-        try{
-            List<GetUserRes> getUsersRes = userDao.getUsersByEmail(email);
-            return getUsersRes;
-        }
-        catch (Exception exception) {
-            throw new BaseException(DATABASE_ERROR);
-        }
-                    }
-
+/*
 
     public GetUserRes getUser(int userIdx) throws BaseException {
         try {
@@ -69,7 +56,7 @@ public class UserProvider {
         }
     }
 
-    /*public PostLoginRes logIn(PostLoginReq postLoginReq) throws BaseException{
+    *//*public PostLoginRes logIn(PostLoginReq postLoginReq) throws BaseException{
         User user = userDao.getPwd(postLoginReq);
         String encryptPwd;
         try {

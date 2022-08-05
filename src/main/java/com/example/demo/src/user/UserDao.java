@@ -2,17 +2,41 @@ package com.example.demo.src.user;
 
 
 import com.example.demo.src.user.model.*;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import javax.persistence.EntityManager;
 import javax.sql.DataSource;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Repository
+@RequiredArgsConstructor
 public class UserDao {
+    private final EntityManager em;
+    public List<GetUserRes> getUsers(){
+        List<User> getUserRes = em.createQuery("select u from User u", User.class)
+                .getResultList();
+        return getUserRes.stream()
+                .map(m -> new GetUserRes(m.getUserIdx(), m.getEmail(), m.getPasswd()))
+                .collect(Collectors.toList());
 
-    private JdbcTemplate jdbcTemplate;
+    }
+
+    public List<GetUserRes> getUsersByEmail(String email){
+        List<User> getUserRes = em.createQuery("select u from User u where u.email = :email",User.class)
+                .setParameter("email", email)
+                .getResultList();
+        return getUserRes.stream()
+                .map(m -> new GetUserRes(m.getUserIdx(), m.getEmail(), m.getPasswd()))
+                .collect(Collectors.toList());
+    }
+
+
+
+    /*private JdbcTemplate jdbcTemplate;
 
     @Autowired
     public void setDataSource(DataSource dataSource){
@@ -23,6 +47,7 @@ public class UserDao {
         String getUsersQuery = "select * from UserInfo";
         return this.jdbcTemplate.query(getUsersQuery,
                 (rs,rowNum) -> new GetUserRes(
+                        rs.getInt()
                         rs.getInt("userIdx"),
                         rs.getString("userName"),
                         rs.getString("ID"),
@@ -30,6 +55,7 @@ public class UserDao {
                         rs.getString("password"))
                 );
     }
+
 
     public List<GetUserRes> getUsersByEmail(String email){
         String getUsersByEmailQuery = "select * from UserInfo where email =?";
@@ -56,7 +82,8 @@ public class UserDao {
                         rs.getString("password")),
                 getUserParams);
     }
-    
+
+
 
     public int createUser(PostUserReq postUserReq){
         String createUserQuery = "insert into UserInfo (userName, ID, password, email) VALUES (?,?,?,?)";
@@ -83,7 +110,7 @@ public class UserDao {
         return this.jdbcTemplate.update(modifyUserNameQuery,modifyUserNameParams);
     }
 
-    /*public User getPwd(PostLoginReq postLoginReq){
+    public User getPwd(PostLoginReq postLoginReq){
         String getPwdQuery = "select userIdx, password,email,userName,ID from UserInfo where ID = ?";
         String getPwdParams = postLoginReq.getId();
 
