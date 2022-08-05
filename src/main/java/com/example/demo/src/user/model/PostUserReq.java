@@ -1,15 +1,15 @@
 package com.example.demo.src.user.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import lombok.*;
 
-@Getter
-@Setter
-@AllArgsConstructor
+@Data
+@NoArgsConstructor
+@JsonAutoDetect
 public class PostUserReq {
-    private String UserName;
-    private String id;
+//    private String UserName;
+//    private String id;
     private String email;
-    private String password;
+    private String passwd;
+    private String phone;
 }

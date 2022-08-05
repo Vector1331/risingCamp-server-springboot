@@ -15,6 +15,13 @@ import java.util.stream.Collectors;
 @Repository
 @RequiredArgsConstructor
 public class UserDao {
+    private JdbcTemplate jdbcTemplate;
+
+    //JdbcTemplate 이 null 아니려면 아래 필수 
+    @Autowired
+    public void setDataSource(DataSource dataSource){
+        this.jdbcTemplate = new JdbcTemplate(dataSource);
+    }
     private final EntityManager em;
     public List<GetUserRes> getUsers(){
         List<User> getUserRes = em.createQuery("select u from User u", User.class)
@@ -42,14 +49,24 @@ public class UserDao {
 
     }
 
+    //jpa 에서는 select exists 지원 X -> JDBC로
+    public int checkEmail(String email){
+        String checkEmailQuery = "select exists(select email from user where email = ?)";
+        String checkEmailParams = email;
+        return this.jdbcTemplate.queryForObject(checkEmailQuery,
+                int.class,
+                checkEmailParams);
 
-
-    /*private JdbcTemplate jdbcTemplate;
-
-    @Autowired
-    public void setDataSource(DataSource dataSource){
-        this.jdbcTemplate = new JdbcTemplate(dataSource);
     }
+
+    public int saveUser(User user) {
+        em.persist(user);
+        return user.getUserIdx();
+    }
+
+
+    /*
+
 
     public List<GetUserRes> getUsers(){
         String getUsersQuery = "select * from UserInfo";

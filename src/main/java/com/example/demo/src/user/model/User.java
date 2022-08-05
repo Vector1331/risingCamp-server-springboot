@@ -2,10 +2,7 @@ package com.example.demo.src.user.model;
 
 import com.example.demo.src.profile.model.Profile;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -15,9 +12,9 @@ import java.util.List;
 @Table(name = "user")
 @Getter
 @Setter
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PUBLIC)
 public class User {
-    @Id @GeneratedValue
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "userIdx")
     private int userIdx;
 
@@ -29,4 +26,15 @@ public class User {
     @JsonIgnore
     @OneToMany(mappedBy = "user")
     private List<Profile> profileList = new ArrayList<>();
+
+    public static User createUser(String email, String passwd, String phone, String status){
+        User user = new User();
+        user.setEmail(email);
+        user.setPasswd(passwd);
+        user.setPhone(phone);
+        user.setStatus(status);
+
+        return user;
+    }
+
 }

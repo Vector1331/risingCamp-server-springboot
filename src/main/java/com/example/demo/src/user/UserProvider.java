@@ -44,16 +44,14 @@ public class UserProvider {
         return getUserRes;
 
     }
-/*
-    public int checkEmail(String email) throws BaseException{
-        try{
-            return userDao.checkEmail(email);
-        } catch (Exception exception){
-            throw new BaseException(DATABASE_ERROR);
-        }
+
+    public int checkEmail(String email) {
+
+        return userDao.checkEmail(email);
+
     }
 
-    *//*public PostLoginRes logIn(PostLoginReq postLoginReq) throws BaseException{
+    /*public PostLoginRes logIn(PostLoginReq postLoginReq) throws BaseException{
         User user = userDao.getPwd(postLoginReq);
         String encryptPwd;
         try {

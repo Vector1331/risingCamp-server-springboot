@@ -10,6 +10,7 @@ import com.example.demo.utils.JwtService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 
@@ -25,7 +26,7 @@ public class UserController {
     @Autowired
     private final UserProvider userProvider;
 //    @Autowired
-//    private final UserService userService;
+    private final UserService userService;
     @Autowired
     private final JwtService jwtService;
 
@@ -63,23 +64,28 @@ public class UserController {
         // Get Users
         GetUserRes getUserRes = userProvider.getUser(userIdx);
         return new BaseResponse<>(getUserRes);
-
-
     }
-    /*
-    *//**
+
+    /**
      * 회원가입 API
      * [POST] /users
      * @return BaseResponse<PostUserRes>
-     *//*
+     */
     // Body
     @ResponseBody
     @PostMapping("")
-    public BaseResponse<PostUserRes> createUser(@RequestBody PostUserReq postUserReq) {
-        // TODO: email 관련한 짧은 validation 예시입니다. 그 외 더 부가적으로 추가해주세요!
-        if(postUserReq.getEmail() == null){
+    public BaseResponse<PostUserRes> createUser(@RequestBody @Valid PostUserReq postUserReq) {
+
+       if(postUserReq.getEmail() == null){
             return new BaseResponse<>(POST_USERS_EMPTY_EMAIL);
         }
+        try {
+            PostUserRes postUserRes = userService.createUser(postUserReq);
+            return new BaseResponse<>(postUserRes);
+        }catch(BaseException exception){
+            return new BaseResponse<>((exception.getStatus()));
+        }
+        /*
         //이메일 정규표현
         if(!isRegexEmail(postUserReq.getEmail())){
             return new BaseResponse<>(POST_USERS_INVALID_EMAIL);
@@ -89,9 +95,10 @@ public class UserController {
             return new BaseResponse<>(postUserRes);
         } catch(BaseException exception){
             return new BaseResponse<>((exception.getStatus()));
-        }
+        }*/
     }
-    *//**
+
+    /**
      * 로그인 API
      * [POST] /users/logIn
      * @return BaseResponse<PostLoginRes>
