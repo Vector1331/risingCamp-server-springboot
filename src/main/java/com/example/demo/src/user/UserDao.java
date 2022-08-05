@@ -34,6 +34,14 @@ public class UserDao {
                 .collect(Collectors.toList());
     }
 
+    public GetUserRes getUser(int userIdx){
+        User u = em.createQuery("select u from User u where u.userIdx = :idx", User.class)
+                .setParameter("idx", userIdx)
+                .getSingleResult();
+        return new GetUserRes(u.getUserIdx(), u.getEmail(), u.getPasswd());
+
+    }
+
 
 
     /*private JdbcTemplate jdbcTemplate;
