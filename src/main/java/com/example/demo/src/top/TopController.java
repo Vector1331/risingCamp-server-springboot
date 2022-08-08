@@ -5,9 +5,7 @@ import com.example.demo.src.top.model.GetTopRes;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -18,14 +16,12 @@ public class TopController {
     final Logger logger = LoggerFactory.getLogger(this.getClass());
     private final TopProvider topProvider;
 
-    @GetMapping("/series")
-    public BaseResponse<List<GetTopRes>> getTopSeries() {
-        List<GetTopRes> getTopRes = topProvider.getTops("series");
+    //5-1 TOP 10 시리즈&d영화 조회 API
+    @ResponseBody
+    @GetMapping("/{label}") //(GET)127.0.0.1:9000/api/top/:type  -> series & movie
+    public BaseResponse<List<GetTopRes>> getTops(@PathVariable("label") String label) {
+        List<GetTopRes> getTopRes = topProvider.getTops(label);
         return new BaseResponse<>(getTopRes);
     }
-    @GetMapping("/movie")
-    public BaseResponse<List<GetTopRes>> getTopMovies() {
-        List<GetTopRes> getTopRes = topProvider.getTops("movie");
-        return new BaseResponse<>(getTopRes);
-    }
+
 }
