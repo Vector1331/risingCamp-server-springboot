@@ -1,6 +1,7 @@
 package com.example.demo.src.user;
 
 
+import com.example.demo.src.membership.model.Membership;
 import com.example.demo.src.user.model.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,15 @@ public class UserDao {
         this.jdbcTemplate = new JdbcTemplate(dataSource);
     }
     private final EntityManager em;
+
+    public List<GetMembershipRes> getMembership() {
+        List<Membership> memberships = em.createQuery("select m from Membership m", Membership.class)
+                .getResultList();
+        return memberships.stream()
+                .map(m-> new GetMembershipRes(m.getMembershipIdx(), m.getType(), m.getCost(), m.getUnit(), m.getQuality(), m.getResolution(), m.getOtherDevice()))
+                .collect(Collectors.toList());
+
+    }
 
     public GetUserRes getUser(int userIdx){
         User u = em.createQuery("select u from User u where u.userIdx = :idx", User.class)

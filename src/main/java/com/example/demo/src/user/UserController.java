@@ -56,6 +56,14 @@ public class UserController {
             return new BaseResponse<>((exception.getStatus()));
         }*/
     }
+
+
+    //1-2 회원가입 2단계 멤버쉽 조회 API [GET]
+    @GetMapping("/planform")
+    public BaseResponse<List<GetMembershipRes>> getMembership() {
+        List<GetMembershipRes> getMembershipRes = userProvider.getMembership();
+        return new BaseResponse<>(getMembershipRes);
+    }
     /**
      * 회원 1명 조회 API
      * [GET] /users/:userIdx

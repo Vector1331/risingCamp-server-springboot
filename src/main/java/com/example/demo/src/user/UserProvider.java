@@ -27,7 +27,10 @@ public class UserProvider {
 
     final Logger logger = LoggerFactory.getLogger(this.getClass());
 
-
+    public List<GetMembershipRes> getMembership() {
+        List<GetMembershipRes> getMembershipRes = userDao.getMembership();
+        return getMembershipRes;
+    }
 
 
     public GetUserRes getUser(int userIdx) {
