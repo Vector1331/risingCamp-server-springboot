@@ -40,7 +40,7 @@ public class UserService {
             throw new BaseException(PASSWORD_ENCRYPTION_ERROR);
         }
         try {
-            User user = User.createUser(postUserReq.getEmail(), postUserReq.getPasswd(), postUserReq.getPhone(), "active");
+            User user = User.createUser(postUserReq.getEmail(), postUserReq.getPasswd(), postUserReq.getPhone(), "active", postUserReq.getPolicyCheck());
 
             int userIdx = userDao.saveUser(user);
 

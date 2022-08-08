@@ -30,32 +30,12 @@ public class UserController {
     @Autowired
     private final JwtService jwtService;
 
-
-    /**
-     * 회원 1명 조회 API
-     * [GET] /users/:userIdx
-     * @return BaseResponse<GetUserRes>
-     */
-    // Path-variable
-    @ResponseBody
-    @GetMapping("/{userIdx}") // (GET) 127.0.0.1:9000/app/users/:userIdx
-    public BaseResponse<GetUserRes> getUser(@PathVariable("userIdx") int userIdx) {
-        // Get Users
-        GetUserRes getUserRes = userProvider.getUser(userIdx);
-        return new BaseResponse<>(getUserRes);
-    }
-
-    /**
-     * 회원가입 API
-     * [POST] /users
-     * @return BaseResponse<PostUserRes>
-     */
-    // Body
+    // 1-1 회원가입 1단계 API (이메일,비번,약관동의)
     @ResponseBody
     @PostMapping("")
     public BaseResponse<PostUserRes> createUser(@RequestBody @Valid PostUserReq postUserReq) {
 
-       if(postUserReq.getEmail() == null){
+        if(postUserReq.getEmail() == null){
             return new BaseResponse<>(POST_USERS_EMPTY_EMAIL);
         }
         try {
@@ -76,6 +56,22 @@ public class UserController {
             return new BaseResponse<>((exception.getStatus()));
         }*/
     }
+    /**
+     * 회원 1명 조회 API
+     * [GET] /users/:userIdx
+     * @return BaseResponse<GetUserRes>
+     */
+    // Path-variable
+    @ResponseBody
+    @GetMapping("/{userIdx}") // (GET) 127.0.0.1:9000/app/users/:userIdx
+    public BaseResponse<GetUserRes> getUser(@PathVariable("userIdx") int userIdx) {
+        // Get Users
+        GetUserRes getUserRes = userProvider.getUser(userIdx);
+        return new BaseResponse<>(getUserRes);
+    }
+
+
+
 
     /**
      * 로그인 API

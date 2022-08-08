@@ -12,4 +12,5 @@ public class PostUserReq {
     private String email;
     private String passwd;
     private String phone;
+    private int policyCheck;
 }
