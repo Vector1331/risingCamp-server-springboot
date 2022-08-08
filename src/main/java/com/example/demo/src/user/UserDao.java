@@ -23,23 +23,6 @@ public class UserDao {
         this.jdbcTemplate = new JdbcTemplate(dataSource);
     }
     private final EntityManager em;
-    public List<GetUserRes> getUsers(){
-        List<User> getUserRes = em.createQuery("select u from User u", User.class)
-                .getResultList();
-        return getUserRes.stream()
-                .map(m -> new GetUserRes(m.getUserIdx(), m.getEmail(), m.getPasswd()))
-                .collect(Collectors.toList());
-
-    }
-
-    public List<GetUserRes> getUsersByEmail(String email){
-        List<User> getUserRes = em.createQuery("select u from User u where u.email = :email",User.class)
-                .setParameter("email", email)
-                .getResultList();
-        return getUserRes.stream()
-                .map(m -> new GetUserRes(m.getUserIdx(), m.getEmail(), m.getPasswd()))
-                .collect(Collectors.toList());
-    }
 
     public GetUserRes getUser(int userIdx){
         User u = em.createQuery("select u from User u where u.userIdx = :idx", User.class)

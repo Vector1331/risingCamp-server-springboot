@@ -28,15 +28,6 @@ public class UserProvider {
     final Logger logger = LoggerFactory.getLogger(this.getClass());
 
 
-    public List<GetUserRes> getUsers() {
-        List<GetUserRes> getUserRes = userDao.getUsers();
-        return getUserRes;
-    }
-
-    public List<GetUserRes> getUsersByEmail(String email) {
-        List<GetUserRes> getUsersRes = userDao.getUsersByEmail(email);
-        return getUsersRes;
-    }
 
 
     public GetUserRes getUser(int userIdx) {
