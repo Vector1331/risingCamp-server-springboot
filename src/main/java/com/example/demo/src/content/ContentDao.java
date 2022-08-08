@@ -24,14 +24,14 @@ public class ContentDao {
                 .collect(Collectors.toList());
     }
 
-    public List<GetContentRes> getCategoryContent(int categoryIdx, String label) {
+    public List<GetContentRes> getCategoryContent(String label, int categoryIdx) {
         List<ContentCategory> contentCategories = em.createQuery("select cc from ContentCategory cc" +
                         " join cc.content c" +
-                        " where cc.category.categoryIdx = :param" +
+                        " where cc.category.categoryIdx = :categoryIdx" +
                         " and c.label = :label" +
                         " group by c.title", ContentCategory.class)
-                .setParameter("param", categoryIdx)
                 .setParameter("label" , label)
+                .setParameter("categoryIdx", categoryIdx)
                 .getResultList();
         return contentCategories.stream()
                 .map(m -> new GetContentRes(m.getContent().getContentIdx(), m.getContent().getSampleImgUrl()))

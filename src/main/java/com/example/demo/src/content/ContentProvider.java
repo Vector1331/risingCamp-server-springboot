@@ -14,8 +14,8 @@ public class ContentProvider {
         return getContentRes;
     }
 
-    public List<GetContentRes> getCategoryContent(int categoryIdx, String label) {
-        List<GetContentRes> getContentRes = contentDao.getCategoryContent(categoryIdx, label);
+    public List<GetContentRes> getCategoryContent(String label, int categoryIdx) {
+        List<GetContentRes> getContentRes = contentDao.getCategoryContent(label ,categoryIdx);
         return getContentRes;
 
     }

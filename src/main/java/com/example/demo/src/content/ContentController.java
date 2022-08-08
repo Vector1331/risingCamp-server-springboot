@@ -5,6 +5,7 @@ import com.example.demo.src.content.model.GetContentRes;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,7 +17,7 @@ public class ContentController {
     final Logger logger = LoggerFactory.getLogger(this.getClass());
     private final ContentProvider contentProvider;
 
-    //6-1
+    //6-1 영화, 시리즈 페이지 조회 API
     @ResponseBody
     @GetMapping("/{label}")
     public BaseResponse<List<GetContentRes>> getContents(@PathVariable("label") String label) {
@@ -25,19 +26,15 @@ public class ContentController {
 
     }
 
-    //6-3
-    @GetMapping("/movie/{categoryIdx}")
-    public BaseResponse<List<GetContentRes>> getCategoryMovies(@PathVariable("categoryIdx") int categoryIdx) {
-        List<GetContentRes> getContentRes = contentProvider.getCategoryContent(categoryIdx, "movie");
+    //6-3 영화 or 시리즈 해당 카테고리별 전체 콘텐츠 조회 API
+    @GetMapping("/{label}/{categoryIdx}")
+    public BaseResponse<List<GetContentRes>> getCategoryMovies(@PathVariable("label") String label,
+                                                               @PathVariable("categoryIdx") int categoryIdx) {
+        List<GetContentRes> getContentRes = contentProvider.getCategoryContent(label, categoryIdx);
         return new BaseResponse<>(getContentRes);
     }
 
-    //6-4
-    @GetMapping("/series/{categoryIdx}")
-    public BaseResponse<List<GetContentRes>> getCategorySeries(@PathVariable("categoryIdx") int categoryIdx) {
-        List<GetContentRes> getContentRes = contentProvider.getCategoryContent(categoryIdx, "series");
-        return new BaseResponse<>(getContentRes);
-    }
+
 
 
 }
