@@ -5,9 +5,7 @@ import com.example.demo.src.category.model.GetCategoryRes;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -18,17 +16,14 @@ public class CategoryController {
     final Logger logger = LoggerFactory.getLogger(this.getClass());
     private final CategoryProvider categoryProvider;
 
-    @GetMapping("/movie")
-    public BaseResponse<List<GetCategoryRes>> getMovieCategories() {
-        List<GetCategoryRes> getCategoryRes = categoryProvider.getCategories("movie");
+    //7-1 영화 or 시리즈 콘텐츠의 전체 카테고리 조회 API
+    @ResponseBody
+    @GetMapping("/{label}")
+    public BaseResponse<List<GetCategoryRes>> getCategories(@PathVariable("label") String label) {
+        List<GetCategoryRes> getCategoryRes = categoryProvider.getCategories(label);
         return new BaseResponse<>(getCategoryRes);
     }
 
-    @GetMapping("/series")
-    public BaseResponse<List<GetCategoryRes>> getSeriesCategories() {
-        List<GetCategoryRes> getCategoryRes = categoryProvider.getCategories("series");
-        return new BaseResponse<>(getCategoryRes);
-    }
 
 
 }
