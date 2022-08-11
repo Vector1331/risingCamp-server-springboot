@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -58,6 +59,20 @@ public class UserService {
     public void modifyUserEmail(PatchUserReq patchUserReq) throws BaseException {
         try{
             int result = userDao.modifyUserName(patchUserReq);
+            if(result == 0){
+                throw new BaseException(MODIFY_FAIL_USERNAME);
+            }
+        } catch(Exception exception){
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
+    public void modifyUserPwd(int userIdx, PatchUserPwdReq patchUserPwdReq)  throws BaseException {
+        try{
+            //암호화
+            String pwd = new SHA256().encrypt(patchUserPwdReq.getNewPwd());
+            PatchUserPwd patchUserPwd = new PatchUserPwd(userIdx,pwd);
+            int result = userDao.modifyUserPwd(patchUserPwd);
             if(result == 0){
                 throw new BaseException(MODIFY_FAIL_USERNAME);
             }

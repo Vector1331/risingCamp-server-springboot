@@ -74,7 +74,7 @@ public class UserController {
         return new BaseResponse<>(postMembershipRes);
     }
 
-    
+
 
     // 1-5 회원 1명 조회 API [GET]
     @ResponseBody
@@ -123,6 +123,35 @@ public class UserController {
                 return new BaseResponse<>(result);
             }
             else {return new BaseResponse<>("비밀번호 오류");}
+
+
+        } catch (BaseException exception) {
+            return new BaseResponse<>((exception.getStatus()));
+        }
+    }
+
+    @ResponseBody
+    @PatchMapping("pwd/{userIdx}")public BaseResponse<String> modifyUserPwd(@PathVariable("userIdx") int userIdx, @RequestBody PatchUserPwdReq patchUserPwdReq){
+        try {
+            //jwt에서 idx 추출.
+            int userIdxByJwt = jwtService.getUserIdx();
+            //userIdx와 접근한 유저가 같은지 확인
+            if(userIdx != userIdxByJwt){
+                return new BaseResponse<>(INVALID_USER_JWT);
+            }
+            //기존 비밀번호가 같은지 확인
+
+            String encryptPwd = new SHA256().encrypt(patchUserPwdReq.getOriginPwd());   //request 기존비번
+            String userEmail = userProvider.getUser(userIdx).getEmail();
+            User user1 = userDao.getPwd(userEmail);
+
+            if(user1.getPasswd().equals(encryptPwd)){
+                //같다면 유저 비밀번호변경
+                userService.modifyUserPwd(user1.getUserIdx(), patchUserPwdReq);
+                String result = "비밀번호 변경에 성공했습니다.";
+                return new BaseResponse<>(result);
+            }
+            else {return new BaseResponse<>("기존 비밀번호와 같지않습니다.");}
 
 
         } catch (BaseException exception) {

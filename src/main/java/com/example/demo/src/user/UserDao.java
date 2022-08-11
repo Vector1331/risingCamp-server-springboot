@@ -78,10 +78,13 @@ public class UserDao {
                 .setParameter("email",patchUserReq.getEmail())
                 .setParameter("userIdx", patchUserReq.getUserIdx())
                 .executeUpdate();
-        /*Object[] modifyUserNameParams = new Object[]{patchUserReq.getEmail(), patchUserReq.getUserIdx()};
+    }
 
-        return this.jdbcTemplate.update(modifyUserNameQuery,modifyUserNameParams);
-    */
+    public int modifyUserPwd(PatchUserPwd patchUserPwd) {
+        return em.createQuery("update User u set u.passwd = :newPwd where u.userIdx = :userIdx")
+                .setParameter("newPwd", patchUserPwd.getNewPwd())
+                .setParameter("userIdx", patchUserPwd.getUserIdx())
+                .executeUpdate();
     }
 
 
