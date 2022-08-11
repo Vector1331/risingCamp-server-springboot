@@ -103,7 +103,7 @@ public class UserController {
      * 유저정보변경 API
      * [PATCH] /users/:userIdx
      * @return BaseResponse<String>
-     *//*
+     */
     @ResponseBody
     @PatchMapping("/{userIdx}")
     public BaseResponse<String> modifyUserName(@PathVariable("userIdx") int userIdx, @RequestBody User user){
@@ -114,9 +114,9 @@ public class UserController {
             if(userIdx != userIdxByJwt){
                 return new BaseResponse<>(INVALID_USER_JWT);
             }
-            //같다면 유저네임 변경
-            PatchUserReq patchUserReq = new PatchUserReq(userIdx,user.getUserName());
-            userService.modifyUserName(patchUserReq);
+            //같다면 유저이메일 변경
+            PatchUserReq patchUserReq = new PatchUserReq(userIdx,user.getEmail());
+            userService.modifyUserEmail(patchUserReq);
 
             String result = "";
         return new BaseResponse<>(result);
@@ -124,6 +124,6 @@ public class UserController {
             return new BaseResponse<>((exception.getStatus()));
         }
     }
-*/
+
 
 }

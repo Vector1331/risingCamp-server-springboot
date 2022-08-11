@@ -55,7 +55,7 @@ public class UserService {
     }
 
 
-    /*public void modifyUserName(PatchUserReq patchUserReq) throws BaseException {
+    public void modifyUserEmail(PatchUserReq patchUserReq) throws BaseException {
         try{
             int result = userDao.modifyUserName(patchUserReq);
             if(result == 0){
@@ -64,5 +64,5 @@ public class UserService {
         } catch(Exception exception){
             throw new BaseException(DATABASE_ERROR);
         }
-    }*/
+    }
 }

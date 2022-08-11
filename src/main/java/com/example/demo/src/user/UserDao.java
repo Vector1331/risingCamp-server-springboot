@@ -58,23 +58,22 @@ public class UserDao {
     }
 
     public User getPwd(PostLoginReq postLoginReq){
-        String getPwdQuery = "select u from User u where u.userIdx = :id";
+        String getPwdQuery = "select u from User u where u.email = :email";
         return em.createQuery(getPwdQuery, User.class)
-                        .setParameter("id", postLoginReq.getId())
+                        .setParameter("email", postLoginReq.getEmail())
                         .getSingleResult();
+    }
 
+    public int modifyUserName(PatchUserReq patchUserReq){
+        String modifyUserNameQuery = "update User u set u.email = :email where u.userIdx = :userIdx";
+        return em.createQuery(modifyUserNameQuery)
+                .setParameter("email",patchUserReq.getEmail())
+                .setParameter("userIdx", patchUserReq.getUserIdx())
+                .executeUpdate();
+        /*Object[] modifyUserNameParams = new Object[]{patchUserReq.getEmail(), patchUserReq.getUserIdx()};
 
-        /*return this.jdbcTemplate.queryForObject(getPwdQuery,
-                (rs,rowNum)-> new User(
-                        rs.getInt("userIdx"),
-                        rs.getString("ID"),
-                        rs.getString("userName"),
-                        rs.getString("password"),
-                        rs.getString("email")
-                ),
-                getPwdParams
-        );*/
-
+        return this.jdbcTemplate.update(modifyUserNameQuery,modifyUserNameParams);
+    */
     }
 
 
