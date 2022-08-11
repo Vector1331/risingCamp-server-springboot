@@ -1,7 +1,7 @@
 package com.example.demo.src.content.model;
 
 import com.example.demo.src.category.model.ContentCategory;
-import com.example.demo.src.profile.model.save.model.SaveContent;
+import com.example.demo.src.save.model.SaveContent;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

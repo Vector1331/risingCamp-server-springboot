@@ -1,9 +1,10 @@
 package com.example.demo.src.profile.model;
 
 import com.example.demo.src.likecontent.model.LikeContent;
-import com.example.demo.src.profile.model.save.model.SaveContent;
+import com.example.demo.src.save.model.SaveContent;
 import com.example.demo.src.user.model.User;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -16,10 +17,10 @@ import java.util.List;
 @Table(name = "profile")
 @Getter
 @Setter
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PUBLIC)
 public class Profile {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "profileIdx")
     private int profileIdx;
     private String name;
@@ -43,7 +44,11 @@ public class Profile {
     private List<SaveContent> saveContents = new ArrayList<>();
 
 
-
-
-
+    public Profile(String profileName, String imgUrl, String isKids, String status, User user) {
+        this.name = profileName;
+        this.imageUrl = imgUrl;
+        this.isKids = isKids;
+        this.status = status;
+        this.user = user;
+    }
 }

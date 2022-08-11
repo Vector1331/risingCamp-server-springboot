@@ -1,4 +1,4 @@
-package com.example.demo.src.profile.model.save.model;
+package com.example.demo.src.save.model;
 
 import com.example.demo.src.content.model.Content;
 import com.example.demo.src.profile.model.Profile;

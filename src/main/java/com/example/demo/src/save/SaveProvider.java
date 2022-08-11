@@ -1,6 +1,6 @@
-package com.example.demo.src.profile.model.save;
+package com.example.demo.src.save;
 
-import com.example.demo.src.profile.model.save.model.GetSaveRes;
+import com.example.demo.src.save.model.GetSaveRes;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
