@@ -85,8 +85,8 @@ public class UserController {
      * 로그인 API
      * [POST] /users/logIn
      * @return BaseResponse<PostLoginRes>
-     *//*
-    *//*@ResponseBody
+     */
+    @ResponseBody
     @PostMapping("/logIn")
     public BaseResponse<PostLoginRes> logIn(@RequestBody PostLoginReq postLoginReq){
         try{
@@ -97,9 +97,9 @@ public class UserController {
         } catch (BaseException exception){
             return new BaseResponse<>(exception.getStatus());
         }
-    }*//*
+    }
 
-    *//**
+    /**
      * 유저정보변경 API
      * [PATCH] /users/:userIdx
      * @return BaseResponse<String>
