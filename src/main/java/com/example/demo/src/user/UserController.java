@@ -1,5 +1,6 @@
 package com.example.demo.src.user;
 
+import com.example.demo.utils.SHA256;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,6 +28,7 @@ public class UserController {
     private final UserProvider userProvider;
 //    @Autowired
     private final UserService userService;
+    private final UserDao userDao;
     @Autowired
     private final JwtService jwtService;
 
@@ -105,7 +107,7 @@ public class UserController {
      * @return BaseResponse<String>
      */
     @ResponseBody
-    @PatchMapping("/{userIdx}")
+    @PatchMapping("email/{userIdx}")
     public BaseResponse<String> modifyUserName(@PathVariable("userIdx") int userIdx, @RequestBody User user){
         try {
             //jwt에서 idx 추출.
@@ -114,12 +116,22 @@ public class UserController {
             if(userIdx != userIdxByJwt){
                 return new BaseResponse<>(INVALID_USER_JWT);
             }
-            //같다면 유저이메일 변경
-            PatchUserReq patchUserReq = new PatchUserReq(userIdx,user.getEmail());
-            userService.modifyUserEmail(patchUserReq);
+            //user 비밀번호가 같은지 확인
+            String userEmail = userProvider.getUser(userIdx).getEmail();
+            String encryptPwd = new SHA256().encrypt(user.getPasswd());
+            User user1 = userDao.getPwd(userEmail);
 
-            String result = "";
-        return new BaseResponse<>(result);
+            if(user1.getPasswd().equals(encryptPwd)){
+                //같다면 유저이메일 변경
+                PatchUserReq patchUserReq = new PatchUserReq(userIdx,user.getEmail());
+                userService.modifyUserEmail(patchUserReq);
+
+                String result = "이메일 변경에 성공했습니다.";
+                return new BaseResponse<>(result);
+            }
+            else {return new BaseResponse<>("비밀번호 오류");}
+
+
         } catch (BaseException exception) {
             return new BaseResponse<>((exception.getStatus()));
         }

@@ -57,10 +57,10 @@ public class UserDao {
         return user.getUserIdx();
     }
 
-    public User getPwd(PostLoginReq postLoginReq){
+    public User getPwd(String email){
         String getPwdQuery = "select u from User u where u.email = :email";
         return em.createQuery(getPwdQuery, User.class)
-                        .setParameter("email", postLoginReq.getEmail())
+                        .setParameter("email", email)
                         .getSingleResult();
     }
 
