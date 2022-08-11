@@ -1,9 +1,6 @@
 package com.example.demo.src.profile;
 
-import com.example.demo.src.profile.model.GetProfileRes;
-import com.example.demo.src.profile.model.PostProfileReq;
-import com.example.demo.src.profile.model.PostProfileRes;
-import com.example.demo.src.profile.model.Profile;
+import com.example.demo.src.profile.model.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -27,8 +24,15 @@ public class ProfileDao {
                 .setParameter("param", userIdx)
                 .getResultList();
         return profile.stream()
-                .map(m-> new GetProfileRes(m.getName(), m.getImageUrl()))
+                .map(m-> new GetProfileRes(m.getProfileIdx(), m.getName(), m.getImageUrl()))
                 .collect(Collectors.toList());
 
+    }
+
+    public GetOneProfileRes findProfileById(int profileIdx) {
+        Profile p =  em.createQuery("select p from Profile p where p.profileIdx = :param", Profile.class)
+                .setParameter("param", profileIdx)
+                .getSingleResult();
+        return new GetOneProfileRes(p.getProfileIdx(), p.getName(), p.getImageUrl(), p.getIsNext(), p.getIsPreview());
     }
 }

@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 public class PostProfileReq {
     private String profileName;
     private String imgUrl;
-    private String isKids;
+    private int isKids;
+
 
 }

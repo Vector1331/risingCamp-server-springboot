@@ -27,9 +27,9 @@ public class Profile {
     private String imageUrl;
     private String passwd;
     private String status;
-    private String isKids;
-    private String isNext;
-    private String isPreview;
+    private int isKids;
+    private int isNext;
+    private int isPreview;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="userIdx")
@@ -44,10 +44,12 @@ public class Profile {
     private List<SaveContent> saveContents = new ArrayList<>();
 
 
-    public Profile(String profileName, String imgUrl, String isKids, String status, User user) {
+    public Profile(String profileName, String imgUrl, int isKids, int isNext, int isPreview, String status, User user) {
         this.name = profileName;
         this.imageUrl = imgUrl;
         this.isKids = isKids;
+        this.isNext = isNext;
+        this.isPreview = isPreview;
         this.status = status;
         this.user = user;
     }
