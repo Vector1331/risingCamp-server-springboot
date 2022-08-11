@@ -2,10 +2,7 @@ package com.example.demo.src.profile;
 
 import com.example.demo.config.BaseException;
 import com.example.demo.config.BaseResponse;
-import com.example.demo.src.profile.model.GetOneProfileRes;
-import com.example.demo.src.profile.model.GetProfileRes;
-import com.example.demo.src.profile.model.PostProfileReq;
-import com.example.demo.src.profile.model.PostProfileRes;
+import com.example.demo.src.profile.model.*;
 import com.example.demo.utils.JwtService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -75,6 +72,25 @@ public class ProfileController {
             return new BaseResponse<>(e.getStatus());
         }
     }
+
+    //2-4 프로필 정보변경 수정 API
+    @ResponseBody
+    @PatchMapping("{userIdx}/{profileIdx}")
+    public BaseResponse<PatchProfileRes> modifyProfile(@PathVariable("userIdx") int userIdx,
+                                                       @PathVariable("profileIdx") int profileIdx,
+                                                       @RequestBody PatchProfileReq patchProfileReq) {
+        try{
+            int userIdxByJwt = jwtService.getUserIdx();
+            if(userIdx != userIdxByJwt){
+                return new BaseResponse<>(INVALID_USER_JWT);
+            }
+            return new BaseResponse<PatchProfileRes>(profileProvider.modifyProfile(profileIdx, patchProfileReq));
+        }
+        catch (BaseException e){
+            return new BaseResponse<>(e.getStatus());
+        }
+    }
+
 
 
 }

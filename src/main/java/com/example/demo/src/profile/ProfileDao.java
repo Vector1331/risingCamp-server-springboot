@@ -35,4 +35,18 @@ public class ProfileDao {
                 .getSingleResult();
         return new GetOneProfileRes(p.getProfileIdx(), p.getName(), p.getImageUrl(), p.getIsNext(), p.getIsPreview());
     }
+
+    public PatchProfileRes modifyProfile(int profileIdx, PatchProfileReq p) {
+
+        em.createQuery("update Profile p" +
+                        " set p.name = :name, p.imageUrl = :imgUrl, p.isNext = :isNext, p.isPreview = :isPre" +
+                        " where p.profileIdx = :idx")
+                .setParameter("name", p.getProfileName())
+                .setParameter("imgUrl", p.getImgUrl())
+                .setParameter("isNext", p.getIsNext())
+                .setParameter("isPre", p.getIsPreview())
+                .setParameter("idx", profileIdx)
+                .executeUpdate();
+        return new PatchProfileRes(profileIdx);
+    }
 }

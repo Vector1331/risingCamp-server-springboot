@@ -34,4 +34,8 @@ public class ProfileProvider {
     public GetOneProfileRes findProfileById(int profileIdx) {
         return profileDao.findProfileById(profileIdx);
     }
+
+    public PatchProfileRes modifyProfile(int profileIdx, PatchProfileReq patchProfileReq) {
+        return profileDao.modifyProfile(profileIdx, patchProfileReq);
+    }
 }
