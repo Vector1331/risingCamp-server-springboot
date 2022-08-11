@@ -1,7 +1,7 @@
 package com.example.demo.src.profile.model;
 
 import com.example.demo.src.likecontent.model.LikeContent;
-import com.example.demo.src.save.model.SaveContent;
+import com.example.demo.src.profile.model.save.model.SaveContent;
 import com.example.demo.src.user.model.User;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;

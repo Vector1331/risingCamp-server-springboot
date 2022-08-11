@@ -2,6 +2,7 @@ package com.example.demo.src.user;
 
 
 import com.example.demo.src.membership.model.Membership;
+import com.example.demo.src.membership.model.UserMembership;
 import com.example.demo.src.user.model.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.sql.DataSource;
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -18,6 +20,7 @@ import java.util.stream.Collectors;
 public class UserDao {
     private JdbcTemplate jdbcTemplate;
 
+
     //JdbcTemplate 이 null 아니려면 아래 필수 
     @Autowired
     public void setDataSource(DataSource dataSource){
@@ -25,13 +28,12 @@ public class UserDao {
     }
     private final EntityManager em;
 
-    public List<GetMembershipRes> getMembership() {
-        List<Membership> memberships = em.createQuery("select m from Membership m", Membership.class)
-                .getResultList();
-        return memberships.stream()
-                .map(m-> new GetMembershipRes(m.getMembershipIdx(), m.getType(), m.getCost(), m.getUnit(), m.getQuality(), m.getResolution(), m.getOtherDevice()))
-                .collect(Collectors.toList());
 
+    @Transactional
+    public PostMembershipRes postMembership(User user, Membership membership) {
+        UserMembership userMembership = new UserMembership(user, membership);
+        em.persist(userMembership);
+        return new PostMembershipRes(userMembership.getUserMembershipIdx());
     }
 
     public GetUserRes getUser(int userIdx){
@@ -40,6 +42,12 @@ public class UserDao {
                 .getSingleResult();
         return new GetUserRes(u.getUserIdx(), u.getEmail(), u.getPasswd());
 
+    }
+    public User getUserById(int userIdx) {
+        User user =  em.createQuery("select u from User u where u.userIdx = :idx", User.class)
+                .setParameter("idx", userIdx)
+                .getSingleResult();
+        return user;
     }
 
     //jpa 에서는 select exists 지원 X -> JDBC로
@@ -75,6 +83,8 @@ public class UserDao {
         return this.jdbcTemplate.update(modifyUserNameQuery,modifyUserNameParams);
     */
     }
+
+
 
 
     /*

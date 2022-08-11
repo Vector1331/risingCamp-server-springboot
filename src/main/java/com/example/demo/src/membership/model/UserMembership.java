@@ -1,9 +1,7 @@
 package com.example.demo.src.membership.model;
 
 import com.example.demo.src.user.model.User;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 
@@ -11,10 +9,11 @@ import javax.persistence.*;
 @Table(name = "userMembership")
 @Getter
 @Setter
-@NoArgsConstructor
+@AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PUBLIC)
 public class UserMembership {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "userMembershipIdx")
     private int userMembershipIdx;
 
@@ -25,4 +24,9 @@ public class UserMembership {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name ="membershipIdx")
     private Membership membership;
+
+    public UserMembership(User user, Membership membership) {
+        this.user = user;
+        this.membership = membership;
+    }
 }

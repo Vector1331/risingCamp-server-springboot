@@ -1,4 +1,4 @@
-package com.example.demo.src.save.model;
+package com.example.demo.src.profile.model.save.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

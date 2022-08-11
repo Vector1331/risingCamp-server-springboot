@@ -66,12 +66,17 @@ public class UserController {
         List<GetMembershipRes> getMembershipRes = userProvider.getMembership();
         return new BaseResponse<>(getMembershipRes);
     }
-    /**
-     * 회원 1명 조회 API
-     * [GET] /users/:userIdx
-     * @return BaseResponse<GetUserRes>
-     */
-    // Path-variable
+
+    //1-3 회원가입 2단계 멤버쉽 등록 API [POST]
+    @PostMapping("/planform")
+    public BaseResponse<PostMembershipRes> postMembership(@RequestBody @Valid PostMembershipReq postMembershipReq) {
+        PostMembershipRes postMembershipRes = userProvider.postMembership(postMembershipReq);
+        return new BaseResponse<>(postMembershipRes);
+    }
+
+    
+
+    // 1-5 회원 1명 조회 API [GET]
     @ResponseBody
     @GetMapping("/{userIdx}") // (GET) 127.0.0.1:9000/app/users/:userIdx
     public BaseResponse<GetUserRes> getUser(@PathVariable("userIdx") int userIdx) {
@@ -81,19 +86,11 @@ public class UserController {
     }
 
 
-
-
-    /**
-     * 로그인 API
-     * [POST] /users/logIn
-     * @return BaseResponse<PostLoginRes>
-     */
+    //1-6 로그인 API [POST]
     @ResponseBody
     @PostMapping("/logIn")
     public BaseResponse<PostLoginRes> logIn(@RequestBody PostLoginReq postLoginReq){
         try{
-            // TODO: 로그인 값들에 대한 형식적인 validatin 처리해주셔야합니다!
-            // TODO: 유저의 status ex) 비활성화된 유저, 탈퇴한 유저 등을 관리해주고 있다면 해당 부분에 대한 validation 처리도 해주셔야합니다.
             PostLoginRes postLoginRes = userProvider.logIn(postLoginReq);
             return new BaseResponse<>(postLoginRes);
         } catch (BaseException exception){
@@ -101,11 +98,7 @@ public class UserController {
         }
     }
 
-    /**
-     * 유저정보변경 API
-     * [PATCH] /users/:userIdx
-     * @return BaseResponse<String>
-     */
+    //1-7 유저 이메일 정보변경 API [PATCH]
     @ResponseBody
     @PatchMapping("email/{userIdx}")
     public BaseResponse<String> modifyUserName(@PathVariable("userIdx") int userIdx, @RequestBody User user){

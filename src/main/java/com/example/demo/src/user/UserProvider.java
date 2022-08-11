@@ -3,6 +3,8 @@ package com.example.demo.src.user;
 
 import com.example.demo.config.BaseException;
 import com.example.demo.config.BaseResponseStatus;
+import com.example.demo.src.membership.model.Membership;
+import com.example.demo.src.membership.model.MembershipDao;
 import com.example.demo.src.user.model.*;
 import com.example.demo.utils.JwtService;
 import com.example.demo.utils.SHA256;
@@ -11,28 +13,37 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 import static com.example.demo.config.BaseResponseStatus.*;
 
 //Provider : Read의 비즈니스 로직 처리
+@Transactional
 @Service
 @RequiredArgsConstructor
 public class UserProvider {
 
     private final UserDao userDao;
+    private final MembershipDao membershipDao;
     private final JwtService jwtService;
 
 
     final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     public List<GetMembershipRes> getMembership() {
-        List<GetMembershipRes> getMembershipRes = userDao.getMembership();
+        List<GetMembershipRes> getMembershipRes = membershipDao.getMembership();
         return getMembershipRes;
     }
 
+    public PostMembershipRes postMembership(PostMembershipReq postMembershipReq) {
+        Membership membership = membershipDao.getMembershipById(postMembershipReq.getMemberShipIdx());
+        User user = userDao.getUserById(postMembershipReq.getUserIdx());
+        PostMembershipRes postMembershipRes = userDao.postMembership(user, membership);
+        return postMembershipRes;
 
+    }
     public GetUserRes getUser(int userIdx) {
         GetUserRes getUserRes = userDao.getUser(userIdx);
         return getUserRes;

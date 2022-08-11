@@ -1,7 +1,7 @@
-package com.example.demo.src.save;
+package com.example.demo.src.profile.model.save;
 
 import com.example.demo.config.BaseResponse;
-import com.example.demo.src.save.model.GetSaveRes;
+import com.example.demo.src.profile.model.save.model.GetSaveRes;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
