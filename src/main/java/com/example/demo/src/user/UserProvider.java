@@ -39,10 +39,14 @@ public class UserProvider {
 
     public PostMembershipRes postMembership(PostMembershipReq postMembershipReq) {
         Membership membership = membershipDao.getMembershipById(postMembershipReq.getMemberShipIdx());
-        User user = userDao.getUserById(postMembershipReq.getUserIdx());
+        User user = getUserById(postMembershipReq.getUserIdx());
         PostMembershipRes postMembershipRes = userDao.postMembership(user, membership);
         return postMembershipRes;
 
+    }
+
+    public User getUserById (int userIdx) {
+        return userDao.getUserById(userIdx);
     }
     public GetUserRes getUser(int userIdx) {
         GetUserRes getUserRes = userDao.getUser(userIdx);

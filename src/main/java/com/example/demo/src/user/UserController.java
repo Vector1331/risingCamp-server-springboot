@@ -80,9 +80,22 @@ public class UserController {
     @ResponseBody
     @GetMapping("/{userIdx}") // (GET) 127.0.0.1:9000/app/users/:userIdx
     public BaseResponse<GetUserRes> getUser(@PathVariable("userIdx") int userIdx) {
-        // Get Users
-        GetUserRes getUserRes = userProvider.getUser(userIdx);
-        return new BaseResponse<>(getUserRes);
+
+        try {
+            //jwt에서 idx 추출.
+            int userIdxByJwt = jwtService.getUserIdx();
+            //userIdx와 접근한 유저가 같은지 확인
+            if (userIdx != userIdxByJwt) {
+                return new BaseResponse<>(INVALID_USER_JWT);
+            }
+            // Get Users
+            GetUserRes getUserRes = userProvider.getUser(userIdx);
+            return new BaseResponse<>(getUserRes);
+        }
+        catch (BaseException e){
+            return new BaseResponse<>((e.getStatus()));
+        }
+
     }
 
 

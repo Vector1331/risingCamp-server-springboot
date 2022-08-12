@@ -1,5 +1,6 @@
 package com.example.demo.src.user.model;
 
+import com.example.demo.src.credit.model.Credit;
 import com.example.demo.src.membership.model.UserMembership;
 import com.example.demo.src.profile.model.Profile;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -32,6 +33,11 @@ public class User {
     @JsonIgnore
     @OneToMany(mappedBy = "user")
     private List<UserMembership> userMemberships = new ArrayList<>();
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "user")
+    private List<Credit> creditList = new ArrayList<>();
+
     public static User createUser(String email, String passwd, String phone, String status, int policyCheck){
         User user = new User();
         user.setEmail(email);
